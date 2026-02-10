@@ -1,6 +1,5 @@
 #include <iostream>
 #include <string>
-#include <map>
 using namespace std;
 
 struct Book {
@@ -10,78 +9,90 @@ struct Book {
     int copies;
 };
 
-class Library {
-    map<int, Book> books;
+const int MAX_BOOKS = 100;   // maximum number of books the library can hold
+Book library[MAX_BOOKS];
+int bookCount = 0;
 
-public:
-    void addBook() {
-        Book b;
-        cout << "Enter Book ID: ";
-        cin >> b.id;
-        cin.ignore();
-        cout << "Enter Title: ";
-        getline(cin, b.title);
-        cout << "Enter Author: ";
-        getline(cin, b.author);
-        cout << "Enter Number of Copies: ";
-        cin >> b.copies;
-
-        books[b.id] = b;
-        cout << "Book added successfully!\n";
+void addBook() {
+    if (bookCount >= MAX_BOOKS) {
+        cout << "Library is full, cannot add more books!\n";
+        return;
     }
+    Book b;
+    cout << "Enter Book ID: ";
+    cin >> b.id;
+    cin.ignore();
+    cout << "Enter Title: ";
+    getline(cin, b.title);
+    cout << "Enter Author: ";
+    getline(cin, b.author);
+    cout << "Enter Number of Copies: ";
+    cin >> b.copies;
 
-    void issueBook() {
-        int id;
-        cout << "Enter Book ID to issue: ";
-        cin >> id;
-        if (books.find(id) != books.end() && books[id].copies > 0) {
-            books[id].copies--;
-            cout << "Book issued: " << books[id].title << "\n";
-        } else {
-            cout << "Book not available!\n";
+    library[bookCount++] = b;
+    cout << "Book added successfully!\n";
+}
+
+void issueBook() {
+    int id;
+    cout << "Enter Book ID to issue: ";
+    cin >> id;
+    for (int i = 0; i < bookCount; i++) {
+        if (library[i].id == id) {
+            if (library[i].copies > 0) {
+                library[i].copies--;
+                cout << "Book issued successfully!\n";
+            } else {
+                cout << "No copies available!\n";
+            }
+            return;
         }
     }
+    cout << "Book not found!\n";
+}
 
-    void returnBook() {
-        int id;
-        cout << "Enter Book ID to return: ";
-        cin >> id;
-        if (books.find(id) != books.end()) {
-            books[id].copies++;
-            cout << "Book returned: " << books[id].title << "\n";
-        } else {
-            cout << "Invalid Book ID!\n";
+void returnBook() {
+    int id;
+    cout << "Enter Book ID to return: ";
+    cin >> id;
+    for (int i = 0; i < bookCount; i++) {
+        if (library[i].id == id) {
+            library[i].copies++;
+            cout << "Book returned successfully!\n";
+            return;
         }
     }
+    cout << "Book not found!\n";
+}
 
-    void displayTotalBooks() {
-        int total = 0;
-        for (auto &pair : books) {
-            total += pair.second.copies;
-        }
-        cout << "Total available books: " << total << "\n";
+void displayBooks() {
+    cout << "\nLibrary Collection:\n";
+    for (int i = 0; i < bookCount; i++) {
+        cout << "ID: " << library[i].id
+             << " | Title: " << library[i].title
+             << " | Author: " << library[i].author
+             << " | Copies: " << library[i].copies << endl;
     }
-};
+    cout << "Total Books: " << bookCount << endl;
+}
 
 int main() {
-    Library lib;
     int choice;
-
     do {
         cout << "\n--- Library Menu ---\n";
         cout << "1. Add Book\n";
         cout << "2. Issue Book\n";
         cout << "3. Return Book\n";
-        cout << "4. Display Total Books\n";
+        cout << "4. Display Books\n";
         cout << "5. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
         switch (choice) {
-            case 1: lib.addBook(); break;
-            case 2: lib.issueBook(); break;
-            case 3: lib.returnBook(); break;
-            case 4: lib.displayTotalBooks(); break;
+            case 1: addBook(); break;
+            case 2: issueBook(); break;
+            case 3: returnBook(); break;
+            case 4: displayBooks(); break;
             case 5: cout << "Exiting...\n"; break;
             default: cout << "Invalid choice!\n";
         }
