@@ -15,10 +15,10 @@ void addBook() {
     struct Book b;
     printf("Enter Book ID: ");
     scanf("%d", &b.id);
-    getchar(); // consume newline
+    getchar();
     printf("Enter Title: ");
     fgets(b.title, sizeof(b.title), stdin);
-   // b.title[strcspn(b.title, "\n")] = 0; // remove newline
+
     printf("Enter Author: ");
     fgets(b.author, sizeof(b.author), stdin);
     b.author[strcspn(b.author, "\n")] = 0;
