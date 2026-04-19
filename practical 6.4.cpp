@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
 
-// Base Class
 class Account {
 protected:
     int accNo;
@@ -30,7 +29,6 @@ public:
     }
 };
 
-// Savings Class
 class Savings : public Account {
     float interest;
 
@@ -45,7 +43,6 @@ public:
     }
 };
 
-// Current Class
 class Current : public Account {
     float overdraft;
 
