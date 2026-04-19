@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-// Base Class
+
 class Person {
 protected:
     string name;
@@ -18,7 +18,6 @@ public:
     }
 };
 
-// Intermediate Class
 class Employee : public Person {
 protected:
     int empID;
@@ -33,7 +32,6 @@ public:
     }
 };
 
-// Top Class
 class Manager : public Employee {
     string dept;
 
@@ -56,7 +54,7 @@ public:
 
 int main() {
 
-    // -------- STATIC METHOD --------
+
     Manager m[2] = {
         Manager("Amit", 30, 101, "HR"),
         Manager("Riya", 35, 102, "IT")
@@ -68,7 +66,6 @@ int main() {
         m[i].displayManager();
     }
 
-    // -------- SEARCH BY ID --------
     int searchID;
     cout << "\nEnter ID to search: ";
     cin >> searchID;
